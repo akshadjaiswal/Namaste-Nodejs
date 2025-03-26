@@ -169,6 +169,10 @@ View [`commits`](https://github.com/akshadjaiswal/devTinder-frontend/commits/mai
 
 - 📖 [_Theory_](https://github.com/akshadjaiswal/Namaste-Nodejs/tree/main/Chapter%20S3%2002%20Nginx%20and%20Backend%20Node%20App%20Development/README.md)
 
+## 📚 [_Chapter 03 - Adding a Custom Domain Name_](https://github.com/akshadjaiswal/Namaste-Nodejs/tree/main/Chapter%20S3%2003%20Adding%20a%20custom%20Domain%20name)
+
+- 📖 [_Theory_](https://github.com/akshadjaiswal/Namaste-Nodejs/tree/main/Chapter%20S3%2003%20Adding%20a%20custom%20Domain%20name/README.md)
+
 ---
 ## More Learning Resources
 
