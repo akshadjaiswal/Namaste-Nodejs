@@ -1,4 +1,4 @@
-# DevTinder - Mapping a Domain Name to Deployed App 🌐
+# DevTinder - Mapping a Domain Name to Deployed App 🌐 (Half)
 
 ## 📌 Code Demonstration Links  
 🔗 **Backend Repository:** [DevTinder Backend](https://github.com/akshadjaiswal/devTinder-backend)  
