@@ -44,4 +44,4 @@ This document outlines the process of mapping a **custom domain name** to the de
 ---
 
 ## 🔥 Conclusion  
-Domain mapping is now in progress using **Cloudflare and GoDaddy**. This step is essential for making DevTinder publicly available through a branded URL. The next focus will be on DNS record configuration and secure HTTPS setup. 🌐🚀
+Domain mapping is now in progress using **Cloudflare and GoDaddy**. This step is essential for making DevTinder publicly available through a branded URL. The next focus will be on DNS record configuration and secure HTTPS setup. still some steps to do🌐🚀
