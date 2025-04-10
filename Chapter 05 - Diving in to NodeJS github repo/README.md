@@ -128,4 +128,4 @@ In this example, `require('./myModule')` goes through the above five-step mechan
 
 Understanding IIFE, module privacy, and the `require` mechanism is crucial for writing clean and maintainable code in Node.js. This repository aims to provide clarity on these concepts for better development practices.
 
-- please star the Repository if you liked it :)
+- please star the Repository if you liked it and share with others:)
