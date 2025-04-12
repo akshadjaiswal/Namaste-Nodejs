@@ -189,7 +189,7 @@ Explore my additional repositories to deepen your understanding of related topic
 - If you have notes of your own, and are interested in contributing to this repo, hit a PR ! I'll review it and add it immediately 🤓.
 
 
-## ✨ Show your support
+## ✨ Show your support and contribute 
 
 Give a ⭐️ if this project helped you and try to contribute and share with your developers.
 
