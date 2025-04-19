@@ -173,6 +173,8 @@ View [`commits`](https://github.com/akshadjaiswal/devTinder-frontend/commits/mai
 
 - 📖 [_Theory_](https://github.com/akshadjaiswal/Namaste-Nodejs/tree/main/Chapter%20S3%2003%20Adding%20a%20custom%20Domain%20name/README.md)
 
+## 📚 [_Chapter 04 - Adding a Custom Domain Name_](https://github.com/akshadjaiswal/Namaste-Nodejs/tree/main/Chapter%20S3%2003%20Adding%20a%20custom%20Domain%20name)
+
 ---
 ## More Learning Resources
 
