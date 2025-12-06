@@ -199,12 +199,10 @@ Give a ⭐️ if this project helped you and try to contribute and share with yo
 
 <div align="center">
 
-**Made with ❤️ (and questionable ethics) by Akshad Jaiswal**
+**Made with ❤️ by Akshad Jaiswal**
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/akshadjaiswal)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/akshadsantoshjaiswal)
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://x.com/akshad_999)
-
-**⭐ Star this repo if you've ever needed the perfect excuse!**
 
 </div>
