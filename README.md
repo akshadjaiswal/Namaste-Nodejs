@@ -1,5 +1,7 @@
 # Namaste Nodejs
 
+<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">Wow, so proud to see people liking Namaste NodeJS so much and enjoying learning from it&#39;s notes as well. Thank you for building this beautiful resource! <a href="https://t.co/Ddkh3BEBFe">https://t.co/Ddkh3BEBFe</a></p>&mdash; Akshay Saini (@akshaymarch7) <a href="https://twitter.com/akshaymarch7/status/2000475306361299072?ref_src=twsrc%5Etfw">December 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 ##  🎨 Contents:
 
 This repository contains a `Collection of Assignments & Class Notes`, which help you understand the concepts of Node.js.
