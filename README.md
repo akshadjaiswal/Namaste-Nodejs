@@ -1,5 +1,7 @@
 # Namaste Nodejs
 
+🌟 Proud to share that [Akshay Saini](https://x.com/akshaymarch7), creator of the renowned Namaste JavaScript series and a leading voice in the JavaScript community, recognized this repository! His appreciation means a lot to the developer community learning Node.js.
+
 [![Akshay Saini Tweet](images/x_post_akshay_saini.png)](https://twitter.com/akshaymarch7/status/2000475306361299072)
 
 ##  🎨 Contents:
