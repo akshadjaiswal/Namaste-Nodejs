@@ -48,7 +48,7 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
       <li className="leading-relaxed">{children}</li>
     ),
     pre: ({ children }) => (
-      <pre className="mb-6 border-2 border-foreground overflow-x-auto">
+      <pre className="mb-6 overflow-x-auto">
         {children}
       </pre>
     ),
@@ -61,7 +61,7 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
         )
       }
       return (
-        <code className="font-mono text-sm bg-muted border border-foreground px-1.5 py-0.5">
+        <code className="font-mono text-sm bg-[#f0f4f0] border border-border-light px-1.5 py-0.5">
           {children}
         </code>
       )

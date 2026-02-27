@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
+import { Header } from '@/components/header'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -43,7 +44,10 @@ export default function RootLayout({
       <body className="font-body bg-background text-foreground antialiased">
         <div className="flex min-h-screen">
           <Sidebar />
-          <main className="flex-1 min-w-0">{children}</main>
+          <main className="flex-1 min-w-0">
+            <Header />
+            {children}
+          </main>
         </div>
       </body>
     </html>

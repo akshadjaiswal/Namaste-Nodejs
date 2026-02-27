@@ -27,7 +27,7 @@ export default function Home() {
       {seasons.map((season) => (
         <section key={season.number} className="mb-20">
           <div className="flex items-baseline gap-4 mb-2">
-            <span className="font-mono text-xs tracking-widest uppercase">
+            <span className="font-mono text-xs tracking-widest uppercase text-accent">
               Season {String(season.number).padStart(2, '0')}
             </span>
             <span className="font-mono text-xs text-muted-foreground">

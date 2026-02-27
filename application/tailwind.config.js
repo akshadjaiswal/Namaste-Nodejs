@@ -13,6 +13,7 @@ module.exports = {
         'muted-foreground': '#525252',
         border: '#000000',
         'border-light': '#E5E5E5',
+        accent: '#3C873A',
       },
       fontFamily: {
         heading: ['var(--font-heading)', 'Georgia', 'serif'],
