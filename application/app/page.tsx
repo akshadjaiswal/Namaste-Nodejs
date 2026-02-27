@@ -1,100 +1,76 @@
+import Link from 'next/link'
+import { getSeasons } from '@/lib/chapters'
+
 export default function Home() {
+  const seasons = getSeasons()
+
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-20">
-        {/* Header */}
-        <header className="mb-20 border-b border-black pb-12">
-          <div className="mb-4">
-            <span className="text-xs font-light tracking-widest uppercase text-gray-600">
-              Generated with DevStart CLI
+    <div className="max-w-4xl mx-auto px-6 md:px-12 py-16 md:py-24">
+      {/* Hero */}
+      <header className="mb-20">
+        <p className="font-mono text-xs tracking-widest uppercase mb-4">
+          A Complete Learning Resource
+        </p>
+        <h1 className="font-heading text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none">
+          NAMASTE
+          <br />
+          NODE.JS
+        </h1>
+        <div className="h-2 bg-foreground mt-8 mb-6" />
+        <p className="font-body text-lg md:text-xl leading-relaxed max-w-2xl">
+          34 chapters across 3 seasons. From the fundamentals of the V8 engine
+          and event loop to building and deploying a full-stack application.
+        </p>
+      </header>
+
+      {/* Seasons */}
+      {seasons.map((season) => (
+        <section key={season.number} className="mb-20">
+          <div className="flex items-baseline gap-4 mb-2">
+            <span className="font-mono text-xs tracking-widest uppercase">
+              Season {String(season.number).padStart(2, '0')}
+            </span>
+            <span className="font-mono text-xs text-muted-foreground">
+              {season.chapters.length} chapters
             </span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-light tracking-tight text-black mb-6">
-            application
-          </h1>
-          <p className="text-xl font-light text-gray-600 max-w-2xl">
-            Production-ready application scaffolded in 30 seconds
+          <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-2">
+            {season.number === 1 && 'Foundations'}
+            {season.number === 2 && 'Building DevTinder'}
+            {season.number === 3 && 'Deployment'}
+          </h2>
+          <p className="font-body text-muted-foreground mb-6">
+            {season.description}
           </p>
-        </header>
+          <div className="h-1 bg-foreground mb-6" />
 
-        {/* Tech Stack */}
-        <section className="mb-20">
-          <h2 className="text-xs font-medium tracking-widest uppercase text-black mb-8 border-b border-gray-200 pb-3">
-            Your Stack
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="border border-gray-200 p-6 hover:border-black transition-colors">
-              <div className="text-xs font-light text-gray-500 mb-2">Styling</div>
-              <div className="font-light text-black">Tailwind CSS</div>
-            </div>
-            <div className="border border-gray-200 p-6 hover:border-black transition-colors">
-              <div className="text-xs font-light text-gray-500 mb-2">UI Components</div>
-              <div className="font-light text-black">shadcn/ui</div>
-            </div>
-            <div className="border border-gray-200 p-6 hover:border-black transition-colors">
-              <div className="text-xs font-light text-gray-500 mb-2">State</div>
-              <div className="font-light text-black">Zustand</div>
-            </div>
-            <div className="border border-gray-200 p-6 hover:border-black transition-colors">
-              <div className="text-xs font-light text-gray-500 mb-2">Data Fetching</div>
-              <div className="font-light text-black">TanStack Query</div>
-            </div>
-            
-            
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {season.chapters.map((ch) => (
+              <Link
+                key={ch.slug}
+                href={`/chapters/${ch.slug}`}
+                className="group block border border-foreground p-5 -mt-px -ml-px hover:bg-foreground hover:text-background transition-colors duration-100"
+              >
+                <span className="font-mono text-[10px] tracking-widest uppercase text-muted-foreground group-hover:text-background/60">
+                  {ch.number}
+                </span>
+                <h3 className="font-heading text-base font-semibold mt-1 leading-snug">
+                  {ch.title}
+                </h3>
+              </Link>
+            ))}
           </div>
         </section>
+      ))}
 
-        {/* Quick Start */}
-        <section className="mb-20 border border-black p-8">
-          <h2 className="text-xs font-medium tracking-widest uppercase text-black mb-6">
-            Quick Start
-          </h2>
-          <div className="space-y-4 font-light text-gray-700">
-            <div className="flex items-start gap-3">
-              <span className="text-gray-400 mt-1">01</span>
-              <p>Edit <code className="bg-gray-50 border border-gray-200 px-2 py-1 text-sm font-mono text-black">app/page.tsx</code> to customize this page</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-gray-400 mt-1">02</span>
-              <p>Configure environment variables in <code className="bg-gray-50 border border-gray-200 px-2 py-1 text-sm font-mono text-black">.env.local.example</code></p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-gray-400 mt-1">03</span>
-              <p>Your integrations are ready to use in the <code className="bg-gray-50 border border-gray-200 px-2 py-1 text-sm font-mono text-black">lib/</code> folder</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer / DevStart Promo */}
-        <footer className="border-t border-gray-200 pt-12">
-          <div className="mb-8">
-            <p className="text-sm font-light text-gray-600 mb-6">
-              This project was scaffolded in 30 seconds, saving you 2-4 hours of manual configuration.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="https://github.com/akshadjaiswal/devstart"
-                className="inline-block border border-black px-6 py-3 text-sm font-light hover:bg-black hover:text-white transition-colors text-center"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ★ Star on GitHub
-              </a>
-              <a
-                href="https://www.npmjs.com/package/devstart-cli"
-                className="inline-block border border-gray-300 px-6 py-3 text-sm font-light hover:border-black transition-colors text-center"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View on npm
-              </a>
-            </div>
-          </div>
-          <div className="text-xs font-light text-gray-500">
-            <code className="bg-gray-50 border border-gray-200 px-2 py-1 font-mono">npx devstart-cli init</code>
-          </div>
-        </footer>
-      </div>
-    </main>
+      {/* Footer */}
+      <footer className="border-t border-foreground pt-8 mt-12">
+        <p className="font-mono text-xs text-muted-foreground">
+          Based on the Namaste Node.js series by Akshay Saini.
+          <br />
+          Documentation by Akshad Jaiswal.
+        </p>
+      </footer>
+    </div>
   )
 }

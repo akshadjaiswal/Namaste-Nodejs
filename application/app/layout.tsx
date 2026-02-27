@@ -1,13 +1,30 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import { Sidebar } from '@/components/sidebar'
 
-const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600'] })
-import { QueryProvider } from '@/lib/query-provider'
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  display: 'swap',
+})
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'application',
-  description: 'Built with DevStart CLI',
+  title: 'Namaste Node.js',
+  description:
+    'Complete Node.js learning documentation — 34 chapters across 3 seasons, from fundamentals to deployment.',
   icons: {
     icon: '/icon.svg',
   },
@@ -19,8 +36,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}><QueryProvider>{children}</QueryProvider></body>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${sourceSerif.variable} ${jetbrains.variable}`}
+    >
+      <body className="font-body bg-background text-foreground antialiased">
+        <div className="flex min-h-screen">
+          <Sidebar />
+          <main className="flex-1 min-w-0">{children}</main>
+        </div>
+      </body>
     </html>
   )
 }
