@@ -69,8 +69,8 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
                         onClick={() => setIsOpen(false)}
                         className={`block px-6 py-2 text-sm font-body border-l-2 transition-colors duration-100 ${
                           isActive
-                            ? 'bg-foreground text-background border-foreground'
-                            : 'border-transparent hover:bg-foreground hover:text-background hover:border-foreground'
+                            ? 'bg-foreground text-background border-accent'
+                            : 'border-transparent hover:bg-foreground hover:text-background hover:border-accent'
                         }`}
                       >
                         <span className="font-mono text-[10px] text-muted-foreground">

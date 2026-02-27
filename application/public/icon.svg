@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" fill="#ffffff"/>
+  <rect width="32" height="32" fill="#000000"/>
+  <rect x="0" y="0" width="3" height="32" fill="#3C873A"/>
   <text
-    x="16"
+    x="18"
     y="16"
-    font-family="system-ui, -apple-system, sans-serif"
-    font-size="14"
-    font-weight="600"
+    font-family="Georgia, serif"
+    font-size="18"
+    font-weight="700"
     text-anchor="middle"
     dominant-baseline="central"
-    fill="#000000"
-  >AP</text>
+    fill="#FFFFFF"
+    letter-spacing="-1"
+  >N.</text>
 </svg>

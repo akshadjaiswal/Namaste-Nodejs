@@ -1,7 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
-import rehypeHighlight from 'rehype-highlight'
 import type { Components } from 'react-markdown'
 
 interface MarkdownRendererProps {
@@ -48,20 +47,21 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
       <li className="leading-relaxed">{children}</li>
     ),
     pre: ({ children }) => (
-      <pre className="mb-6 border-2 border-foreground overflow-x-auto">
+      <pre className="mb-6 overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent p-5 font-mono text-sm leading-7">
         {children}
       </pre>
     ),
     code: ({ className, children, ...props }) => {
-      if (className) {
+      const isBlock = className?.startsWith('language-')
+      if (isBlock) {
         return (
-          <code className={className} {...props}>
+          <code className="font-mono text-foreground" {...props}>
             {children}
           </code>
         )
       }
       return (
-        <code className="font-mono text-sm bg-muted border border-foreground px-1.5 py-0.5">
+        <code className="font-mono text-sm bg-[#f0f4f0] border border-border-light px-1.5 py-0.5">
           {children}
         </code>
       )
@@ -132,7 +132,7 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSlug, rehypeHighlight]}
+      rehypePlugins={[rehypeSlug]}
       components={components}
     >
       {content}
