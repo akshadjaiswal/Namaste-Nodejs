@@ -1,8 +1,9 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
+import { getGitHubStars } from '@/lib/github'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -22,20 +23,49 @@ const jetbrains = JetBrains_Mono({
   display: 'swap',
 })
 
+const siteUrl = 'https://namaste-nodejs.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'Namaste Node.js',
+  title: {
+    default: 'Namaste Node.js',
+    template: '%s — Namaste Node.js',
+  },
   description:
     'Complete Node.js learning documentation — 34 chapters across 3 seasons, from fundamentals to deployment.',
   icons: {
     icon: '/icon.svg',
   },
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    title: 'Namaste Node.js',
+    description:
+      'Complete Node.js learning documentation — 34 chapters across 3 seasons.',
+    url: siteUrl,
+    siteName: 'Namaste Node.js',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Namaste Node.js',
+    description:
+      'Complete Node.js learning documentation — 34 chapters across 3 seasons.',
+  },
 }
 
-export default function RootLayout({
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000000',
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const stars = await getGitHubStars()
+
   return (
     <html
       lang="en"
@@ -45,7 +75,7 @@ export default function RootLayout({
         <div className="flex min-h-screen">
           <Sidebar />
           <main className="flex-1 min-w-0">
-            <Header />
+            <Header stars={stars} />
             {children}
           </main>
         </div>

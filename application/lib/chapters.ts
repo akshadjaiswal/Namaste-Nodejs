@@ -113,12 +113,12 @@ function getSeasonLabel(season: 1 | 2 | 3): string {
   return labels[season]
 }
 
-export function getChapterBySlug(slug: string): Chapter {
+export function getChapterBySlug(slug: string): Chapter | null {
   const dirs = getAllChapterDirs()
   const dirName = dirs.find((d) => dirNameToSlug(d) === slug)
 
   if (!dirName) {
-    throw new Error(`Chapter not found for slug: ${slug}`)
+    return null
   }
 
   const readmePath = path.join(CONTENT_ROOT, dirName, 'README.md')

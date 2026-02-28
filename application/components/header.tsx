@@ -1,6 +1,10 @@
-import { Github } from 'lucide-react'
+import { Github, Star } from 'lucide-react'
 
-export function Header() {
+interface HeaderProps {
+  stars?: number | null
+}
+
+export function Header({ stars }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 bg-background border-b border-border-light">
       <div className="flex items-center justify-end px-6 md:px-12 py-3">
@@ -13,6 +17,13 @@ export function Header() {
         >
           <Github size={14} strokeWidth={1.5} />
           <span>GitHub</span>
+          {stars != null && (
+            <>
+              <span className="w-px h-3 bg-current opacity-30" />
+              <Star size={12} strokeWidth={1.5} />
+              <span>{stars.toLocaleString()}</span>
+            </>
+          )}
         </a>
       </div>
     </header>

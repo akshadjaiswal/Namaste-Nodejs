@@ -67,6 +67,7 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
                       <Link
                         href={href}
                         onClick={() => setIsOpen(false)}
+                        aria-current={isActive ? 'page' : undefined}
                         className={`block px-6 py-2 text-sm font-body border-l-2 transition-colors duration-100 ${
                           isActive
                             ? 'bg-foreground text-background border-accent'
@@ -111,7 +112,7 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
 
       {/* Mobile overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-foreground/50"

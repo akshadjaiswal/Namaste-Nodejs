@@ -10,23 +10,23 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps) {
   const components: Components = {
-    h1: ({ children }) => (
-      <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight mt-12 mb-6 leading-tight">
+    h1: ({ children, ...props }) => (
+      <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight mt-12 mb-6 leading-tight" {...props}>
         {children}
       </h1>
     ),
-    h2: ({ children }) => (
-      <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight mt-10 mb-4 pb-2 border-b-2 border-foreground">
+    h2: ({ children, ...props }) => (
+      <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight mt-10 mb-4 pb-2 border-b-2 border-foreground" {...props}>
         {children}
       </h2>
     ),
-    h3: ({ children }) => (
-      <h3 className="font-heading text-xl md:text-2xl font-bold mt-8 mb-3">
+    h3: ({ children, ...props }) => (
+      <h3 className="font-heading text-xl md:text-2xl font-bold mt-8 mb-3" {...props}>
         {children}
       </h3>
     ),
-    h4: ({ children }) => (
-      <h4 className="font-heading text-lg font-semibold mt-6 mb-2">
+    h4: ({ children, ...props }) => (
+      <h4 className="font-heading text-lg font-semibold mt-6 mb-2" {...props}>
         {children}
       </h4>
     ),

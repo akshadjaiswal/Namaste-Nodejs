@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { getAllChapters, getChapterBySlug } from '@/lib/chapters'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { TableOfContents } from '@/components/table-of-contents'
@@ -16,8 +17,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const chapter = getChapterBySlug(slug)
+  if (!chapter) return { title: 'Chapter Not Found' }
   return {
-    title: `${chapter.title} — Namaste Node.js`,
+    title: chapter.title,
     description: `Chapter ${chapter.number}: ${chapter.title}`,
   }
 }
@@ -29,8 +31,12 @@ export default async function ChapterPage({
 }) {
   const { slug } = await params
   const chapter = getChapterBySlug(slug)
-  const allChapters = getAllChapters()
 
+  if (!chapter) {
+    notFound()
+  }
+
+  const allChapters = getAllChapters()
   const currentIndex = allChapters.findIndex((c) => c.slug === chapter.slug)
   const prev = currentIndex > 0 ? allChapters[currentIndex - 1] : null
   const next =
@@ -38,7 +44,6 @@ export default async function ChapterPage({
 
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-24">
-      {/* Chapter header */}
       <header className="mb-12">
         <span className="font-mono text-xs tracking-widest uppercase text-muted-foreground">
           {chapter.seasonLabel} &mdash; Chapter {chapter.number}
@@ -49,7 +54,6 @@ export default async function ChapterPage({
         <div className="h-2 bg-foreground mt-8" />
       </header>
 
-      {/* Content area with TOC sidebar on desktop */}
       <div className="flex gap-12">
         <article className="flex-1 min-w-0">
           <MarkdownRenderer content={chapter.content} chapterSlug={chapter.slug} />
@@ -62,7 +66,6 @@ export default async function ChapterPage({
         )}
       </div>
 
-      {/* Previous/Next navigation */}
       <div className="h-1 bg-foreground mt-16 mb-8" />
       <ChapterNav prev={prev} next={next} />
     </div>
