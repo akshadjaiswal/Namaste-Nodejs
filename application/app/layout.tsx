@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
@@ -22,13 +22,40 @@ const jetbrains = JetBrains_Mono({
   display: 'swap',
 })
 
+const siteUrl = 'https://namaste-nodejs.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'Namaste Node.js',
+  title: {
+    default: 'Namaste Node.js',
+    template: '%s — Namaste Node.js',
+  },
   description:
     'Complete Node.js learning documentation — 34 chapters across 3 seasons, from fundamentals to deployment.',
   icons: {
     icon: '/icon.svg',
   },
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    title: 'Namaste Node.js',
+    description:
+      'Complete Node.js learning documentation — 34 chapters across 3 seasons.',
+    url: siteUrl,
+    siteName: 'Namaste Node.js',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Namaste Node.js',
+    description:
+      'Complete Node.js learning documentation — 34 chapters across 3 seasons.',
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000000',
 }
 
 export default function RootLayout({
