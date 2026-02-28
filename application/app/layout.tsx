@@ -3,6 +3,7 @@ import { Playfair_Display, Source_Serif_4, JetBrains_Mono } from 'next/font/goog
 import './globals.css'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
+import { getGitHubStars } from '@/lib/github'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -58,11 +59,13 @@ export const viewport: Viewport = {
   themeColor: '#000000',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const stars = await getGitHubStars()
+
   return (
     <html
       lang="en"
@@ -72,7 +75,7 @@ export default function RootLayout({
         <div className="flex min-h-screen">
           <Sidebar />
           <main className="flex-1 min-w-0">
-            <Header />
+            <Header stars={stars} />
             {children}
           </main>
         </div>
