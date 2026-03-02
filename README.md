@@ -4,7 +4,7 @@
 
 [![Akshay Saini Tweet](images/x_post_akshay_saini.png)](https://twitter.com/akshaymarch7/status/2000475306361299072)
 
-## [Read the Documentation](https://namaste-nodejs.vercel.app/)
+## [Check live documentation to learn step by step](https://namaste-nodejs.vercel.app/)
 
 ##  🎨 Contents:
 
