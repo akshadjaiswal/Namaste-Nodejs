@@ -29,5 +29,37 @@
   .hr-thicker {
     @apply border-0 h-2 bg-foreground my-8;
   }
+
+  /* Attribution author link — Node green shimmer on hover */
+  .author-link {
+    color: #3C873A;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(60, 135, 58, 0.4);
+    text-underline-offset: 3px;
+    background-image: linear-gradient(
+      90deg,
+      #3C873A 0%,
+      #6BBF69 40%,
+      #3C873A 60%,
+      #2A6028 100%
+    );
+    background-size: 250% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: text-decoration-color 200ms;
+  }
+
+  .author-link:hover {
+    text-decoration-color: #3C873A;
+    animation: shimmer 1.4s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .author-link:hover {
+      animation: none;
+    }
+  }
 }
 

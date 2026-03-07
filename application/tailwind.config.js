@@ -37,6 +37,15 @@ module.exports = {
         xl: 'none',
         '2xl': 'none',
       },
+      keyframes: {
+        shimmer: {
+          '0%':   { backgroundPosition: '-200% center' },
+          '100%': { backgroundPosition: '200% center' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 2.4s linear infinite',
+      },
     },
   },
   plugins: [],

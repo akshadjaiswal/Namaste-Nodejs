@@ -63,14 +63,6 @@ export default function Home() {
         </section>
       ))}
 
-      {/* Footer */}
-      <footer className="border-t border-foreground pt-8 mt-12">
-        <p className="font-mono text-xs text-muted-foreground">
-          Based on the Namaste Node.js series by Akshay Saini.
-          <br />
-          Documentation by Akshad Jaiswal.
-        </p>
-      </footer>
     </div>
   )
 }
