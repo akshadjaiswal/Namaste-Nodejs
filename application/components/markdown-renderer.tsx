@@ -1,14 +1,64 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
+import rehypeRaw from 'rehype-raw'
+import { codeToHtml } from 'shiki'
 import type { Components } from 'react-markdown'
+import type { ReactNode } from 'react'
+import { CopyButton } from './copy-button'
 
 interface MarkdownRendererProps {
   content: string
   chapterSlug: string
 }
 
-export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps) {
+function extractText(node: ReactNode): string {
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(extractText).join('')
+  if (node && typeof node === 'object' && 'props' in node) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return extractText((node as any).props?.children)
+  }
+  return ''
+}
+
+async function highlightCodeBlocks(markdown: string): Promise<string> {
+  const fenceRe = /^```(\w*)\n([\s\S]*?)^```/gm
+  const blocks: Array<{ placeholder: string; replacement: string }> = []
+
+  let match: RegExpExecArray | null
+  while ((match = fenceRe.exec(markdown)) !== null) {
+    const lang = match[1] || 'text'
+    const code = match[2].replace(/\n$/, '')
+    const placeholder = `%%SHIKI_BLOCK_${blocks.length}%%`
+
+    try {
+      const html = await codeToHtml(code, {
+        lang,
+        theme: 'github-light',
+      })
+      blocks.push({ placeholder, replacement: `<div data-shiki>${html}</div>` })
+    } catch {
+      blocks.push({ placeholder, replacement: match[0] })
+    }
+  }
+
+  let blockIndex = 0
+  let result = markdown.replace(fenceRe, () => {
+    return blocks[blockIndex++].placeholder
+  })
+
+  for (const b of blocks) {
+    result = result.replace(b.placeholder, b.replacement)
+  }
+
+  return result
+}
+
+export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps) {
+  const processedContent = await highlightCodeBlocks(content)
+
   const components: Components = {
     h1: ({ children, ...props }) => (
       <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight mt-12 mb-6 leading-tight" {...props}>
@@ -46,11 +96,38 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
     li: ({ children }) => (
       <li className="leading-relaxed">{children}</li>
     ),
-    pre: ({ children }) => (
-      <pre className="mb-6 overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent p-5 font-mono text-sm leading-7">
-        {children}
-      </pre>
-    ),
+    div: ({ children, ...props }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const isShiki = (props as any)['data-shiki'] !== undefined
+      if (isShiki) {
+        const rawText = extractText(children)
+        return (
+          <div className="relative mb-6">
+            <CopyButton text={rawText} />
+            <div className="overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent px-5 pb-5 pt-10 shiki-wrapper">
+              {children}
+            </div>
+          </div>
+        )
+      }
+      return <div {...props}>{children}</div>
+    },
+    pre: ({ children, className }) => {
+      // Shiki-generated pre — parent div renderer already wrapped it
+      if (className?.includes('shiki')) {
+        return <pre className={className}>{children}</pre>
+      }
+      // Fallback plain code block (Shiki failed or no language specified)
+      const rawText = extractText(children)
+      return (
+        <div className="relative mb-6">
+          <CopyButton text={rawText} />
+          <pre className="overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent p-5 font-mono text-sm leading-7 pt-10">
+            {children}
+          </pre>
+        </div>
+      )
+    },
     code: ({ className, children, ...props }) => {
       const isBlock = className?.startsWith('language-')
       if (isBlock) {
@@ -132,10 +209,10 @@ export function MarkdownRenderer({ content, chapterSlug }: MarkdownRendererProps
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSlug]}
+      rehypePlugins={[rehypeSlug, rehypeRaw]}
       components={components}
     >
-      {content}
+      {processedContent}
     </ReactMarkdown>
   )
 }
