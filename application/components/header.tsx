@@ -62,6 +62,23 @@ export function Header({ stars }: HeaderProps) {
         </div>
 
       </div>
+
+      {/* Mobile attribution row */}
+      <div className="sm:hidden px-4 pb-2 border-t border-border-light">
+        <p className="font-mono text-[10px] tracking-widest text-muted-foreground">
+          Based on Namaste Node.js by Akshay Saini.{' '}
+          Docs by{' '}
+          <a
+            href="https://github.com/akshadjaiswal"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="author-link"
+          >
+            Akshad Jaiswal
+          </a>
+          .
+        </p>
+      </div>
     </header>
   )
 }

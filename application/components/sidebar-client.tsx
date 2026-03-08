@@ -92,22 +92,6 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
         ))}
       </nav>
 
-      {/* Attribution footer */}
-      <div className="shrink-0 px-6 py-4 border-t border-border-light">
-        <p className="font-mono text-[10px] tracking-widest text-muted-foreground leading-relaxed">
-          Based on Namaste Node.js by Akshay Saini.{' '}
-          Docs by{' '}
-          <a
-            href="https://github.com/akshadjaiswal"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="author-link"
-          >
-            Akshad Jaiswal
-          </a>
-          .
-        </p>
-      </div>
     </div>
   )
 
@@ -116,7 +100,7 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
       {/* Mobile hamburger */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2 bg-background border border-foreground hover:bg-foreground hover:text-background transition-colors duration-100"
+        className="fixed top-3 left-4 z-50 md:hidden p-2 bg-background border border-foreground hover:bg-foreground hover:text-background transition-colors duration-100"
         aria-label="Open navigation"
       >
         <Menu size={20} strokeWidth={1.5} />
