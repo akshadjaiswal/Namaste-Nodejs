@@ -91,6 +91,23 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
           </div>
         ))}
       </nav>
+
+      {/* Attribution footer */}
+      <div className="shrink-0 px-6 py-4 border-t border-border-light">
+        <p className="font-mono text-[10px] tracking-widest text-muted-foreground leading-relaxed">
+          Based on Namaste Node.js by Akshay Saini.{' '}
+          Docs by{' '}
+          <a
+            href="https://github.com/akshadjaiswal"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="author-link"
+          >
+            Akshad Jaiswal
+          </a>
+          .
+        </p>
+      </div>
     </div>
   )
 

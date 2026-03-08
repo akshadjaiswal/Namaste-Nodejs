@@ -13,9 +13,10 @@ export interface Chapter {
   seasonLabel: string
   content: string
   headings: TocHeading[]
+  readTime: number
 }
 
-export type ChapterMeta = Omit<Chapter, 'content' | 'headings'>
+export type ChapterMeta = Omit<Chapter, 'content' | 'headings' | 'readTime'>
 
 export interface Season {
   number: 1 | 2 | 3

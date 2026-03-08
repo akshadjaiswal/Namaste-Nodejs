@@ -1,0 +1,212 @@
+[
+  {
+    "slug": "01-introduction-to-nodejs",
+    "title": "Introduction to NodeJs",
+    "number": "01",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "02-js-on-the-server",
+    "title": "JS on the Server",
+    "number": "02",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "03-lets-write-the-code",
+    "title": "Let's Write the code",
+    "number": "03",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "04-moduleexport-require",
+    "title": "module.export & require",
+    "number": "04",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "05-diving-in-to-nodejs-github-repo",
+    "title": "Diving in to NodeJS github repo",
+    "number": "05",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "06-libuv-async-io",
+    "title": "libuv & async IO",
+    "number": "06",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "07-sync-async-settimeout-zero-code",
+    "title": "sync async, setTimeout Zero - Code",
+    "number": "07",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "08-deep-dive-into-v8-js-engine",
+    "title": "Deep dive into v8 JS Engine",
+    "number": "08",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "09-libuv-event-loop",
+    "title": "libuv & event loop",
+    "number": "09",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "10-thread-pool-in-libuv",
+    "title": "Thread Pool in libuv",
+    "number": "10",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "11-creating-the-server",
+    "title": "Creating the Server",
+    "number": "11",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "12-databases-sql-and-nosql",
+    "title": "Databases  SQL and NoSQL",
+    "number": "12",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "13-creating-a-database-mongodb",
+    "title": "Creating a database & mongodb",
+    "number": "13",
+    "seasonLabel": "Season 1"
+  },
+  {
+    "slug": "s2-201-microservices-vs-monolith-how-to-build-a-project",
+    "title": "Microservices vs Monolith - How to build a project",
+    "number": "S2 01",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-202-features-hld-lld-and-planning",
+    "title": "Features, HLD  LLD and Planning",
+    "number": "S2 02",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-203-creating-our-express-server",
+    "title": "Creating our Express server",
+    "number": "S2 03",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-204-routing-and-request-handlers",
+    "title": "Routing and Request handlers",
+    "number": "S2 04",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-205-middlewares-and-error-handlers",
+    "title": "Middlewares and Error Handlers",
+    "number": "S2 05",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-206-database-schema-models-mongoose",
+    "title": "Database, Schema, Models & Mongoose",
+    "number": "S2 06",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-207-diving-into-apis",
+    "title": "Diving into APIs",
+    "number": "S2 07",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-208-data-sanitization-schema-validations",
+    "title": "Data Sanitization & Schema Validations",
+    "number": "S2 08",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-209-encrypting-passwords",
+    "title": "Encrypting Passwords",
+    "number": "S2 09",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-210-authentication-jwt-cookies",
+    "title": "Authentication, JWT & Cookies",
+    "number": "S2 10",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-211-diving-into-the-apis-and-express-router",
+    "title": "Diving into the APIs and Express router",
+    "number": "S2 11",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-212-logical-db-query-and-compound-indexes",
+    "title": "Logical DB Query and Compound Indexes",
+    "number": "S2 12",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-213-ref-populate-and-thought-process-of-writing-apis",
+    "title": "ref, Populate and Thought Process of writing API's",
+    "number": "S2 13",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-214-building-feed-api-and-pagination",
+    "title": "Building Feed API and Pagination",
+    "number": "S2 14",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-215-devtinder-ui-part-1",
+    "title": "DevTinder UI - Part 1",
+    "number": "S2 15",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-216-devtinder-ui-part-2",
+    "title": "DevTinder UI - Part 2",
+    "number": "S2 16",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-217-devtinder-ui-part-3",
+    "title": "DevTinder UI - Part 3",
+    "number": "S2 17",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-218-devtinder-ui-part-4",
+    "title": "DevTinder UI - Part 4",
+    "number": "S2 18",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s2-219-devtinder-ui-part-5",
+    "title": "DevTinder UI - Part 5",
+    "number": "S2 19",
+    "seasonLabel": "Season 2"
+  },
+  {
+    "slug": "s3-301-lanching-an-aws-instance-and-deploying-frontend",
+    "title": "Lanching an AWS Instance and Deploying frontend",
+    "number": "S3 01",
+    "seasonLabel": "Season 3"
+  },
+  {
+    "slug": "s3-302-nginx-and-backend-node-app-development",
+    "title": "Nginx and Backend Node App Development",
+    "number": "S3 02",
+    "seasonLabel": "Season 3"
+  },
+  {
+    "slug": "s3-303-adding-a-custom-domain-name",
+    "title": "Adding a custom Domain name",
+    "number": "S3 03",
+    "seasonLabel": "Season 3"
+  }
+]
