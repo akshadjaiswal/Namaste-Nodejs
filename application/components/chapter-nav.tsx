@@ -9,7 +9,7 @@ interface ChapterNavProps {
 
 export function ChapterNav({ prev, next }: ChapterNavProps) {
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-4">
+    <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
       {prev ? (
         <Link
           href={`/chapters/${prev.slug}`}
@@ -31,7 +31,7 @@ export function ChapterNav({ prev, next }: ChapterNavProps) {
       {next ? (
         <Link
           href={`/chapters/${next.slug}`}
-          className="flex items-center gap-3 border border-foreground p-4 hover:bg-foreground hover:text-background transition-colors duration-100 flex-1 justify-end text-right"
+          className="flex items-center gap-3 border border-foreground p-4 bg-foreground text-background hover:opacity-80 transition-opacity duration-100 flex-1 justify-end text-right"
         >
           <div>
             <span className="font-mono text-[10px] tracking-widest uppercase opacity-60">
