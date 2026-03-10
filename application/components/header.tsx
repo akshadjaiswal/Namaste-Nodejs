@@ -64,7 +64,7 @@ export function Header({ stars }: HeaderProps) {
       </div>
 
       {/* Mobile attribution row */}
-      <div className="sm:hidden px-4 pb-2 border-t border-border-light">
+      <div className="sm:hidden pl-14 pr-4 pb-2 border-t border-border-light">
         <p className="font-mono text-[10px] tracking-widest text-muted-foreground">
           Based on Namaste Node.js by Akshay Saini.{' '}
           Docs by{' '}

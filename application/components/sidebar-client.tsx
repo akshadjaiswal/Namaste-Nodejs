@@ -27,10 +27,10 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
       <div className="p-6 border-b border-foreground">
         <Link
           href="/"
-          className="block"
+          className="block group"
           onClick={() => setIsOpen(false)}
         >
-          <h2 className="font-heading text-xl font-black tracking-tight leading-tight">
+          <h2 className="font-heading text-xl font-black tracking-tight leading-tight group-hover:opacity-70 transition-opacity duration-100">
             NAMASTE
             <br />
             NODE.JS
@@ -68,10 +68,10 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
                         href={href}
                         onClick={() => setIsOpen(false)}
                         aria-current={isActive ? 'page' : undefined}
-                        className={`block px-6 py-2 text-sm font-body border-l-2 transition-colors duration-100 ${
+                        className={`block px-6 py-2 text-sm font-body transition-colors duration-100 ${
                           isActive
-                            ? 'bg-foreground text-background border-accent'
-                            : 'border-transparent hover:bg-foreground hover:text-background hover:border-accent'
+                            ? 'bg-foreground text-background border-l-4 border-accent'
+                            : 'border-l-2 border-transparent hover:bg-foreground hover:text-background hover:border-accent'
                         }`}
                       >
                         <span className="font-mono text-[10px] text-muted-foreground">
