@@ -5,9 +5,9 @@ export default function Home() {
   const seasons = getSeasons()
 
   return (
-    <div className="max-w-4xl mx-auto px-6 md:px-12 py-16 md:py-24">
+    <div className="max-w-4xl mx-auto px-6 md:px-12 py-10 md:py-16">
       {/* Hero */}
-      <header className="mb-20">
+      <header className="mb-14">
         <p className="font-mono text-xs tracking-widest uppercase mb-4">
           A Complete Learning Resource
         </p>
@@ -25,7 +25,7 @@ export default function Home() {
 
       {/* Seasons */}
       {seasons.map((season) => (
-        <section key={season.number} className="mb-20">
+        <section key={season.number} className="mb-14 pl-4 border-l-4 border-accent">
           <div className="flex items-baseline gap-4 mb-2">
             <span className="font-mono text-xs tracking-widest uppercase text-accent">
               Season {String(season.number).padStart(2, '0')}
@@ -57,6 +57,9 @@ export default function Home() {
                 <h3 className="font-heading text-base font-semibold mt-1 leading-snug">
                   {ch.title}
                 </h3>
+                <span className="block font-mono text-5xl font-black leading-none mt-3 text-foreground/5 group-hover:text-background/10 select-none" aria-hidden="true">
+                  {ch.number}
+                </span>
               </Link>
             ))}
           </div>
