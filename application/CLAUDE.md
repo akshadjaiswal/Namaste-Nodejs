@@ -189,6 +189,15 @@ Code block wrapper classes: `overflow-x-auto bg-[#fafafa] border border-border-l
 
 `extractHeadings()` in `lib/chapters.ts` uses a `slugCount: Map<string, number>` to deduplicate slugs. First occurrence keeps the base slug (e.g., `example`), subsequent ones get `-1`, `-2` suffix (e.g., `example-1`). This matches `rehype-slug`'s behavior so TOC links point to the correct anchors.
 
+## UI patterns
+
+- **Sidebar active item**: `border-l-4 border-accent` (inactive hover uses `border-l-2`)
+- **Sidebar logo**: `group-hover:opacity-70 transition-opacity` — clearly interactive link to home
+- **Chapter page metadata**: stacked `flex-col gap-0.5` — season label in `text-accent` (xs mono uppercase), read time below in `text-muted-foreground`
+- **Chapter nav**: Next link is inverted (`bg-foreground text-background`) by default as the primary action; mobile layout uses `flex-col-reverse` so Next appears first
+- **Home page**: tighter padding (`py-10 md:py-16`), season sections have `pl-4 border-l-4 border-accent` left accent border, chapter cards contain a ghost number watermark (`text-5xl text-foreground/5`)
+- **Season sections**: `mb-14` gap between seasons
+
 ## Sister app
 
 This app is a port of `Namaste-JavaScript/application/`. When making structural changes, check how the JS app handles the same problem. Key difference: the JS app has a Concepts section and uses a different slug prefix (`s1-ep01-`) — this app uses bare padded numbers for Season 1.
