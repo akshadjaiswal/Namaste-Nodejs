@@ -1,24 +1,70 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Fuse from 'fuse.js'
+import Fuse, { type FuseResultMatch } from 'fuse.js'
 
 interface SearchEntry {
   slug: string
   title: string
   number: string
   seasonLabel: string
+  content: string
+}
+
+interface SearchResult {
+  item: SearchEntry
+  snippet: string | null
 }
 
 interface SearchModalProps {
   onClose: () => void
 }
 
+function escapeRegex(str: string) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function extractSnippet(
+  item: SearchEntry,
+  matches: readonly FuseResultMatch[] | undefined,
+  query: string
+): string | null {
+  if (!matches || !query.trim()) return null
+  const contentMatch = matches.find((m) => m.key === 'content')
+  if (!contentMatch || !contentMatch.indices.length) return null
+  const [start, end] = contentMatch.indices[0]
+  const text = item.content
+  const padStart = Math.max(0, start - 60)
+  const padEnd = Math.min(text.length, end + 60)
+  const raw = text.slice(padStart, padEnd)
+  const prefix = padStart > 0 ? '…' : ''
+  const suffix = padEnd < text.length ? '…' : ''
+  return prefix + raw + suffix
+}
+
+function HighlightedSnippet({ snippet, query }: { snippet: string; query: string }) {
+  const parts = snippet.split(new RegExp(`(${escapeRegex(query)})`, 'gi'))
+  return (
+    <span className="font-mono text-[10px] leading-relaxed block mt-0.5 truncate opacity-70">
+      {parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark key={i} className="bg-transparent text-accent font-semibold not-italic">
+            {part}
+          </mark>
+        ) : (
+          part
+        )
+      )}
+    </span>
+  )
+}
+
 export function SearchModal({ onClose }: SearchModalProps) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<SearchEntry[]>([])
+  const [results, setResults] = useState<SearchResult[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [fuse, setFuse] = useState<Fuse<SearchEntry> | null>(null)
+  const [allEntries, setAllEntries] = useState<SearchEntry[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
@@ -26,14 +72,22 @@ export function SearchModal({ onClose }: SearchModalProps) {
     fetch('/search-index.json')
       .then((r) => r.json())
       .then((data: SearchEntry[]) => {
+        setAllEntries(data)
         setFuse(
           new Fuse(data, {
-            keys: ['title', 'number', 'seasonLabel'],
-            threshold: 0.35,
+            keys: [
+              { name: 'title', weight: 0.6 },
+              { name: 'content', weight: 0.3 },
+              { name: 'seasonLabel', weight: 0.1 },
+            ],
+            threshold: 0.3,
+            ignoreLocation: true,
+            minMatchCharLength: 2,
             includeScore: true,
+            includeMatches: true,
           })
         )
-        setResults(data.slice(0, 8))
+        setResults(data.slice(0, 8).map((item) => ({ item, snippet: null })))
       })
   }, [])
 
@@ -44,15 +98,16 @@ export function SearchModal({ onClose }: SearchModalProps) {
   useEffect(() => {
     if (!fuse) return
     if (!query.trim()) {
-      fetch('/search-index.json')
-        .then((r) => r.json())
-        .then((data: SearchEntry[]) => setResults(data.slice(0, 8)))
+      setResults(allEntries.slice(0, 8).map((item) => ({ item, snippet: null })))
       return
     }
-    const hits = fuse.search(query).map((r) => r.item)
-    setResults(hits.slice(0, 8))
+    const hits = fuse.search(query).slice(0, 8).map((r) => ({
+      item: r.item,
+      snippet: extractSnippet(r.item, r.matches, query),
+    }))
+    setResults(hits)
     setActiveIndex(0)
-  }, [query, fuse])
+  }, [query, fuse, allEntries])
 
   const navigate = useCallback(
     (slug: string) => {
@@ -72,7 +127,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
       e.preventDefault()
       setActiveIndex((i) => Math.max(i - 1, 0))
     } else if (e.key === 'Enter' && results[activeIndex]) {
-      navigate(results[activeIndex].slug)
+      navigate(results[activeIndex].item.slug)
     }
   }
 
@@ -111,24 +166,31 @@ export function SearchModal({ onClose }: SearchModalProps) {
         {/* Results */}
         {results.length > 0 && (
           <ul>
-            {results.map((item, i) => (
-              <li key={item.slug}>
+            {results.map((result, i) => (
+              <li key={result.item.slug}>
                 <button
-                  className={`w-full flex items-center justify-between px-4 py-2.5 text-left transition-colors duration-75 ${
+                  className={`w-full flex flex-col px-4 py-2.5 text-left transition-colors duration-75 ${
                     i === activeIndex
                       ? 'bg-foreground text-background'
                       : 'hover:bg-muted'
                   }`}
-                  onClick={() => navigate(item.slug)}
+                  onClick={() => navigate(result.item.slug)}
                   onMouseEnter={() => setActiveIndex(i)}
                 >
-                  <span className="font-mono text-xs tracking-widest uppercase text-current opacity-60 w-20 shrink-0">
-                    {item.number}
-                  </span>
-                  <span className="flex-1 font-body text-sm truncate">{item.title}</span>
-                  <span className="font-mono text-[10px] tracking-widest text-current opacity-50 ml-3 shrink-0">
-                    {item.seasonLabel}
-                  </span>
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-mono text-xs tracking-widest uppercase text-current opacity-60 w-20 shrink-0">
+                      {result.item.number}
+                    </span>
+                    <span className="flex-1 font-body text-sm truncate">{result.item.title}</span>
+                    <span className="font-mono text-[10px] tracking-widest text-current opacity-50 ml-3 shrink-0">
+                      {result.item.seasonLabel}
+                    </span>
+                  </div>
+                  {result.snippet && query && (
+                    <div className="pl-20 w-full overflow-hidden">
+                      <HighlightedSnippet snippet={result.snippet} query={query} />
+                    </div>
+                  )}
                 </button>
               </li>
             ))}

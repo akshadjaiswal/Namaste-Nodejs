@@ -57,13 +57,40 @@ const chapterDirs = entries
     return aKey.num - bKey.num
   })
 
+function stripMarkdown(text) {
+  return text
+    .replace(/```[\s\S]*?```/g, '')        // fenced code blocks
+    .replace(/`[^`]+`/g, '')               // inline code
+    .replace(/^#{1,6}\s+/gm, '')           // heading markers
+    .replace(/!\[.*?\]\(.*?\)/g, '')        // images
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links → keep text
+    .replace(/https?:\/\/\S+/g, '')        // bare URLs
+    .replace(/\*{1,3}([^*]+)\*{1,3}/g, '$1') // bold/italic
+    .replace(/_{1,3}([^_]+)_{1,3}/g, '$1')   // underscore bold/italic
+    .replace(/^>\s*/gm, '')                // blockquotes
+    .replace(/^---+$/gm, '')               // horizontal rules
+    .replace(/^[-*+]\s+/gm, '')            // list bullets
+    .replace(/^\d+\.\s+/gm, '')            // numbered lists
+    .replace(/\s+/g, ' ')                  // collapse whitespace
+    .trim()
+}
+
 const index = chapterDirs.map((dirName) => {
   const { season, number, title } = parseDirName(dirName)
+  const readmePath = path.join(CONTENT_ROOT, dirName, 'README.md')
+  let content = ''
+  try {
+    const raw = fs.readFileSync(readmePath, 'utf-8')
+    content = stripMarkdown(raw)
+  } catch {
+    // no README — content stays empty
+  }
   return {
     slug: dirNameToSlug(dirName),
     title,
     number,
     seasonLabel: `Season ${season}`,
+    content,
   }
 })
 
