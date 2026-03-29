@@ -1,15 +1,47 @@
+import React from 'react'
+import type { ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
 import rehypeRaw from 'rehype-raw'
 import { codeToHtml } from 'shiki'
 import type { Components } from 'react-markdown'
-import type { ReactNode } from 'react'
 import { CopyButton } from './copy-button'
 
 interface MarkdownRendererProps {
   content: string
   chapterSlug: string
+}
+
+const CALLOUT_TYPES = {
+  NOTE:      { label: 'Note',      borderColor: 'border-[#2563EB]', bgColor: 'bg-[#EFF6FF]', textColor: 'text-[#1D4ED8]' },
+  TIP:       { label: 'Tip',       borderColor: 'border-[#16A34A]', bgColor: 'bg-[#F0FDF4]', textColor: 'text-[#15803D]' },
+  WARNING:   { label: 'Warning',   borderColor: 'border-[#D97706]', bgColor: 'bg-[#FFFBEB]', textColor: 'text-[#B45309]' },
+  IMPORTANT: { label: 'Important', borderColor: 'border-[#DC2626]', bgColor: 'bg-[#FEF2F2]', textColor: 'text-[#B91C1C]' },
+  CAUTION:   { label: 'Caution',   borderColor: 'border-[#EA580C]', bgColor: 'bg-[#FFF7ED]', textColor: 'text-[#C2410C]' },
+} as const
+
+type CalloutType = keyof typeof CALLOUT_TYPES
+
+function parseCalloutType(children: ReactNode): CalloutType | null {
+  const text = extractText(children).trimStart()
+  const match = text.match(/^\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]/)
+  return match ? (match[1] as CalloutType) : null
+}
+
+function stripCalloutMarker(children: ReactNode): ReactNode {
+  if (Array.isArray(children)) {
+    const [first, ...rest] = children as ReactNode[]
+    return [stripCalloutMarker(first), ...rest].filter(Boolean)
+  }
+  if (typeof children === 'string') {
+    return children.replace(/^\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*/, '')
+  }
+  if (children && typeof children === 'object' && 'props' in children) {
+    const el = children as React.ReactElement<{ children?: ReactNode }>
+    return React.cloneElement(el, {}, stripCalloutMarker(el.props.children))
+  }
+  return children
 }
 
 function extractText(node: ReactNode): string {
@@ -196,11 +228,28 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
         {children}
       </a>
     ),
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-foreground pl-6 my-6 font-body italic text-muted-foreground">
-        {children}
-      </blockquote>
-    ),
+    blockquote: ({ children }) => {
+      const calloutType = parseCalloutType(children)
+      if (calloutType) {
+        const config = CALLOUT_TYPES[calloutType]
+        const body = stripCalloutMarker(children)
+        return (
+          <div className={`border-l-4 ${config.borderColor} ${config.bgColor} pl-4 pr-4 py-3 my-6 not-italic`}>
+            <div className={`font-mono text-[11px] tracking-widest uppercase font-bold mb-2 ${config.textColor}`}>
+              {config.label}
+            </div>
+            <div className="font-body text-foreground text-base leading-relaxed">
+              {body}
+            </div>
+          </div>
+        )
+      }
+      return (
+        <blockquote className="border-l-4 border-foreground pl-6 my-6 font-body italic text-muted-foreground">
+          {children}
+        </blockquote>
+      )
+    },
     strong: ({ children }) => (
       <strong className="font-bold">{children}</strong>
     ),
