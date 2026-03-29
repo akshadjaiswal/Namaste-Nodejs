@@ -5,6 +5,7 @@ import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { TableOfContents } from '@/components/table-of-contents'
 import { ChapterNav } from '@/components/chapter-nav'
 import { ReadingProgress } from '@/components/reading-progress'
+import { BookmarkButton } from '@/components/bookmark-button'
 
 export function generateStaticParams() {
   const chapters = getAllChapters()
@@ -60,6 +61,9 @@ export default async function ChapterPage({
           {chapter.title}
         </h1>
         <div className="h-2 bg-foreground mt-8" />
+        <div className="mt-4">
+          <BookmarkButton slug={chapter.slug} />
+        </div>
       </header>
 
       <div className="flex gap-12">

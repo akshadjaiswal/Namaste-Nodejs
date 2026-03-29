@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
 import type { Season } from '@/types/chapter'
+import { ContinueReading } from './continue-reading'
 
 interface SidebarClientProps {
   seasons: Season[]
@@ -14,6 +15,9 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [expandedSeasons, setExpandedSeasons] = useState<number[]>([1, 2, 3])
+  const allChapters = seasons.flatMap((s) =>
+    s.chapters.map((c) => ({ slug: c.slug, title: c.title, number: c.number }))
+  )
 
   function toggleSeason(num: number) {
     setExpandedSeasons((prev) =>
@@ -37,6 +41,8 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
           </h2>
         </Link>
       </div>
+
+      <ContinueReading chapters={allChapters} />
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-4">
