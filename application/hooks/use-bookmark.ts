@@ -90,17 +90,15 @@ export function useCompletedChapters() {
   const isCompleted = useCallback((slug: string) => completed.includes(slug), [completed])
 
   const toggle = useCallback((slug: string) => {
-    setCompleted((prev) => {
-      const next = prev.includes(slug)
-        ? prev.filter((s) => s !== slug)
-        : [...prev, slug]
-      try {
-        localStorage.setItem(COMPLETED_KEY, JSON.stringify(next))
-        dispatch(COMPLETED_KEY)
-      } catch {}
-      return next
-    })
-  }, [])
+    const next = completed.includes(slug)
+      ? completed.filter((s) => s !== slug)
+      : [...completed, slug]
+    setCompleted(next)
+    try {
+      localStorage.setItem(COMPLETED_KEY, JSON.stringify(next))
+      dispatch(COMPLETED_KEY)
+    } catch {}
+  }, [completed])
 
   return { completed, isCompleted, toggle }
 }

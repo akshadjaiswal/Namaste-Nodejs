@@ -169,13 +169,13 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
       const isBlock = className?.startsWith('language-')
       if (isBlock) {
         return (
-          <code className="font-mono text-foreground" {...props}>
+          <code className="font-mono" {...props}>
             {children}
           </code>
         )
       }
       return (
-        <code className="font-mono text-sm bg-[#f0f4f0] dark:bg-[#1A2A1A] border border-border-light dark:border-[#2A2A2A] px-1.5 py-0.5">
+        <code className="font-mono text-sm bg-[#f0f4f0] dark:bg-[#1A2A1A] dark:text-[#A8D8A8] border border-border-light dark:border-[#3A4A3A] px-1.5 py-0.5">
           {children}
         </code>
       )
