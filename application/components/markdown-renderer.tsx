@@ -7,6 +7,7 @@ import rehypeRaw from 'rehype-raw'
 import { codeToHtml } from 'shiki'
 import type { Components } from 'react-markdown'
 import { CopyButton } from './copy-button'
+import { HeadingAnchor } from './heading-anchor'
 
 interface MarkdownRendererProps {
   content: string
@@ -66,11 +67,12 @@ async function highlightCodeBlocks(markdown: string): Promise<string> {
     const placeholder = `%%SHIKI_BLOCK_${blocks.length}%%`
 
     try {
-      const html = await codeToHtml(code, {
-        lang,
-        theme: 'github-light',
+      const htmlLight = await codeToHtml(code, { lang, theme: 'github-light' })
+      const htmlDark  = await codeToHtml(code, { lang, theme: 'github-dark' })
+      blocks.push({
+        placeholder,
+        replacement: `<div data-shiki><div class="shiki-light">${htmlLight}</div><div class="shiki-dark">${htmlDark}</div></div>`,
       })
-      blocks.push({ placeholder, replacement: `<div data-shiki>${html}</div>` })
     } catch {
       blocks.push({ placeholder, replacement: match[0] })
     }
@@ -97,19 +99,22 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
         {children}
       </h1>
     ),
-    h2: ({ children, ...props }) => (
-      <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight mt-10 mb-4 pb-2 border-b-2 border-foreground" {...props}>
+    h2: ({ children, id, ...props }) => (
+      <h2 id={id} className="group font-heading text-2xl md:text-3xl font-bold tracking-tight mt-10 mb-4 pb-2 border-b-2 border-foreground dark:border-[#2A2A2A] flex items-baseline gap-1" {...props}>
         {children}
+        {id && <HeadingAnchor id={id} />}
       </h2>
     ),
-    h3: ({ children, ...props }) => (
-      <h3 className="font-heading text-xl md:text-2xl font-bold mt-8 mb-3" {...props}>
+    h3: ({ children, id, ...props }) => (
+      <h3 id={id} className="group font-heading text-xl md:text-2xl font-bold mt-8 mb-3 flex items-baseline gap-1" {...props}>
         {children}
+        {id && <HeadingAnchor id={id} />}
       </h3>
     ),
-    h4: ({ children, ...props }) => (
-      <h4 className="font-heading text-lg font-semibold mt-6 mb-2" {...props}>
+    h4: ({ children, id, ...props }) => (
+      <h4 id={id} className="group font-heading text-lg font-semibold mt-6 mb-2 flex items-baseline gap-1" {...props}>
         {children}
+        {id && <HeadingAnchor id={id} />}
       </h4>
     ),
     p: ({ children }) => (
@@ -136,7 +141,7 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
         return (
           <div className="relative mb-6">
             <CopyButton text={rawText} />
-            <div className="overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent px-5 pb-5 pt-10 shiki-wrapper">
+            <div className="overflow-x-auto bg-[#fafafa] dark:bg-[#1e1e1e] border border-border-light dark:border-[#2A2A2A] border-l-[3px] border-l-accent px-5 pb-5 pt-10 shiki-wrapper">
               {children}
             </div>
           </div>
@@ -154,7 +159,7 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
       return (
         <div className="relative mb-6">
           <CopyButton text={rawText} />
-          <pre className="overflow-x-auto bg-[#fafafa] border border-border-light border-l-[3px] border-l-accent p-5 font-mono text-sm leading-7 pt-10">
+          <pre className="overflow-x-auto bg-[#fafafa] dark:bg-[#1e1e1e] border border-border-light dark:border-[#2A2A2A] border-l-[3px] border-l-accent p-5 font-mono text-sm leading-7 pt-10">
             {children}
           </pre>
         </div>
@@ -170,28 +175,28 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
         )
       }
       return (
-        <code className="font-mono text-sm bg-[#f0f4f0] border border-border-light px-1.5 py-0.5">
+        <code className="font-mono text-sm bg-[#f0f4f0] dark:bg-[#1A2A1A] border border-border-light dark:border-[#2A2A2A] px-1.5 py-0.5">
           {children}
         </code>
       )
     },
     table: ({ children }) => (
       <div className="overflow-x-auto mb-6">
-        <table className="w-full border-collapse border-2 border-foreground font-body text-sm">
+        <table className="w-full border-collapse border-2 border-foreground dark:border-[#2A2A2A] font-body text-sm">
           {children}
         </table>
       </div>
     ),
     thead: ({ children }) => (
-      <thead className="bg-foreground text-background">{children}</thead>
+      <thead className="bg-foreground dark:bg-[#FAFAFA] text-background dark:text-[#0A0A0A]">{children}</thead>
     ),
     th: ({ children }) => (
-      <th className="border border-foreground p-3 text-left font-heading font-bold">
+      <th className="border border-foreground dark:border-[#2A2A2A] p-3 text-left font-heading font-bold">
         {children}
       </th>
     ),
     td: ({ children }) => (
-      <td className="border border-foreground p-3">{children}</td>
+      <td className="border border-foreground dark:border-[#2A2A2A] p-3">{children}</td>
     ),
     img: ({ src, alt }) => {
       if (!src || typeof src !== 'string') return null
@@ -245,7 +250,7 @@ export async function MarkdownRenderer({ content, chapterSlug }: MarkdownRendere
         )
       }
       return (
-        <blockquote className="border-l-4 border-foreground pl-6 my-6 font-body italic text-muted-foreground">
+        <blockquote className="border-l-4 border-foreground dark:border-[#2A2A2A] pl-6 my-6 font-body italic text-muted-foreground dark:text-[#A3A3A3]">
           {children}
         </blockquote>
       )

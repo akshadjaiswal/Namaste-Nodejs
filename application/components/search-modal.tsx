@@ -137,27 +137,27 @@ export function SearchModal({ onClose }: SearchModalProps) {
       onClick={onClose}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-foreground/40" />
+      <div className="absolute inset-0 bg-foreground/40 dark:bg-[#FAFAFA]/20" />
 
       <div
-        className="relative w-full max-w-xl border-2 border-foreground bg-background"
+        className="relative w-full max-w-xl border-2 border-foreground dark:border-[#FAFAFA] bg-background dark:bg-[#0A0A0A]"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
       >
         {/* Input */}
-        <div className="flex items-center border-b border-border-light">
-          <span className="pl-4 font-mono text-xs text-muted-foreground select-none">/</span>
+        <div className="flex items-center border-b border-border-light dark:border-[#2A2A2A]">
+          <span className="pl-4 font-mono text-xs text-muted-foreground dark:text-[#A3A3A3] select-none">/</span>
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search chapters..."
-            className="w-full px-3 py-3 font-mono text-sm bg-transparent outline-none placeholder:text-muted-foreground"
+            className="w-full px-3 py-3 font-mono text-sm bg-transparent outline-none placeholder:text-muted-foreground dark:placeholder:text-[#A3A3A3]"
           />
           <button
             onClick={onClose}
-            className="px-4 py-3 font-mono text-xs text-muted-foreground hover:text-foreground"
+            className="px-4 py-3 font-mono text-xs text-muted-foreground dark:text-[#A3A3A3] hover:text-foreground dark:hover:text-[#FAFAFA]"
           >
             ESC
           </button>
@@ -171,8 +171,8 @@ export function SearchModal({ onClose }: SearchModalProps) {
                 <button
                   className={`w-full flex flex-col px-4 py-2.5 text-left transition-colors duration-75 ${
                     i === activeIndex
-                      ? 'bg-foreground text-background'
-                      : 'hover:bg-muted'
+                      ? 'bg-foreground dark:bg-[#FAFAFA] text-background dark:text-[#0A0A0A]'
+                      : 'hover:bg-muted dark:hover:bg-[#1A1A1A]'
                   }`}
                   onClick={() => navigate(result.item.slug)}
                   onMouseEnter={() => setActiveIndex(i)}
@@ -198,7 +198,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
         )}
 
         {query && results.length === 0 && (
-          <p className="px-4 py-6 font-mono text-xs text-muted-foreground text-center">
+          <p className="px-4 py-6 font-mono text-xs text-muted-foreground dark:text-[#A3A3A3] text-center">
             No results for &ldquo;{query}&rdquo;
           </p>
         )}

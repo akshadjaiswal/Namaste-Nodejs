@@ -6,6 +6,8 @@ import { TableOfContents } from '@/components/table-of-contents'
 import { ChapterNav } from '@/components/chapter-nav'
 import { ReadingProgress } from '@/components/reading-progress'
 import { BookmarkButton } from '@/components/bookmark-button'
+import { CompleteButton } from '@/components/complete-button'
+import { ChapterShortcuts } from '@/components/chapter-shortcuts'
 
 export function generateStaticParams() {
   const chapters = getAllChapters()
@@ -47,22 +49,24 @@ export default async function ChapterPage({
   return (
     <>
       <ReadingProgress />
+      <ChapterShortcuts slug={chapter.slug} />
     <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-24">
       <header className="mb-12">
         <div className="flex flex-col gap-0.5 mb-3">
           <span className="font-mono text-xs tracking-widest uppercase text-accent">
             {chapter.seasonLabel} · Chapter {chapter.number}
           </span>
-          <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
+          <span className="font-mono text-[10px] tracking-widest text-muted-foreground dark:text-[#A3A3A3]">
             {chapter.readTime} min read
           </span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight">
           {chapter.title}
         </h1>
-        <div className="h-2 bg-foreground mt-8" />
-        <div className="mt-4">
+        <div className="h-2 bg-foreground dark:bg-[#FAFAFA] mt-8" />
+        <div className="mt-4 flex items-center gap-3 flex-wrap">
           <BookmarkButton slug={chapter.slug} />
+          <CompleteButton slug={chapter.slug} />
         </div>
       </header>
 
@@ -78,7 +82,7 @@ export default async function ChapterPage({
         )}
       </div>
 
-      <div className="h-1 bg-foreground mt-16 mb-8" />
+      <div className="h-1 bg-foreground dark:bg-[#FAFAFA] mt-16 mb-8" />
       <ChapterNav prev={prev} next={next} />
     </div>
     </>
