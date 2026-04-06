@@ -66,9 +66,17 @@ application/
 │   ├── search-modal.tsx        # 'use client' — Fuse.js search modal (fetch + fuzzy search)
 │   ├── search-trigger.tsx      # 'use client' — search icon button + `/` global shortcut
 │   ├── bookmark-button.tsx     # 'use client' — bookmark toggle; also records last visited
-│   └── continue-reading.tsx    # 'use client' — sidebar continue reading / bookmark link
+│   ├── continue-reading.tsx    # 'use client' — sidebar continue reading / bookmark link
+│   ├── theme-provider.tsx      # 'use client' — ThemeContext, localStorage sync, html.dark toggle
+│   ├── theme-toggle.tsx        # 'use client' — Sun/Moon icon button in header
+│   ├── heading-anchor.tsx      # 'use client' — copy-link-to-section icon on headings
+│   ├── complete-button.tsx     # 'use client' — "Mark Complete" toggle on chapter page
+│   ├── chapter-completion-badge.tsx  # 'use client' — amber checkmark on home page cards
+│   ├── shortcuts-modal.tsx     # 'use client' — keyboard shortcuts reference modal
+│   ├── shortcuts-trigger.tsx   # 'use client' — '?' key listener + Keyboard icon button
+│   └── chapter-shortcuts.tsx   # 'use client' — chapter-page-scoped 'b' key → bookmark
 ├── hooks/
-│   └── use-bookmark.ts         # useLastVisited, useBookmark, useContinueReading hooks
+│   └── use-bookmark.ts         # useLastVisited, useBookmark, useContinueReading, useCompletedChapters hooks
 ├── lib/
 │   ├── chapters.ts             # ALL content parsing — the core of the app
 │   ├── github.ts               # Fetches GitHub star count (cached 1h)
@@ -221,7 +229,44 @@ Markdown supports GitHub-style callout syntax inside `MarkdownRenderer`:
 
 `ContinueReading` (`components/continue-reading.tsx`) is a `'use client'` component rendered in the sidebar. It reads both localStorage keys and shows a "Continue reading" link to `nn_last_visited` and/or a "Bookmarked" link to `nn_bookmark`.
 
-localStorage key names for this app: `nn_last_visited`, `nn_bookmark`.
+localStorage key names for this app: `nn_last_visited`, `nn_bookmark`, `nn_completed`, `nn_theme`.
+
+## Dark mode — how it works
+
+`tailwind.config.js` uses `darkMode: 'class'`. A blocking inline `<script>` in `<head>` (in `app/layout.tsx`) reads `nn_theme` from localStorage before any paint, adding `class="dark"` to `<html>` to prevent flash-of-incorrect-theme. `ThemeProvider` (`components/theme-provider.tsx`) manages state and exposes `useTheme()`. `ThemeToggle` (`components/theme-toggle.tsx`) is a Sun/Moon icon button in the header.
+
+Shiki dual-render: Because `MarkdownRenderer` is an async RSC and cannot read client theme state, each code block is rendered twice — once with `github-light`, once with `github-dark` — wrapped in `.shiki-light` / `.shiki-dark` divs. CSS in `globals.css` shows only the correct one: `html.dark .shiki-light { display: none }` / `html.dark .shiki-dark { display: block }`.
+
+Dark color mappings used throughout components:
+- bg: `dark:bg-[#0A0A0A]`, text: `dark:text-[#FAFAFA]`
+- inverted bg: `dark:bg-[#FAFAFA]`, inverted text: `dark:text-[#0A0A0A]`
+- border: `dark:border-[#FAFAFA]`, subtle border: `dark:border-[#2A2A2A]`
+- muted bg: `dark:bg-[#1A1A1A]`, muted text: `dark:text-[#A3A3A3]`
+- code bg: `dark:bg-[#1e1e1e]`, inline code bg: `dark:bg-[#1A2A1A]`
+
+## Heading anchor links — how they work
+
+`HeadingAnchor` (`components/heading-anchor.tsx`) is a `'use client'` component rendered inside h2/h3/h4 elements in `MarkdownRenderer`. `rehype-slug` adds `id` attributes to headings; these are forwarded as props. The anchor icon (`<Link2>`) is hidden by default and revealed on heading hover via Tailwind `group` + `group-hover:opacity-60`. Clicking it copies the full URL (origin + path + `#id`) to clipboard and pushes the hash into browser history.
+
+## Chapter completion tracking — how it works
+
+`hooks/use-bookmark.ts` exports `useCompletedChapters()`:
+- Reads/writes `nn_completed` in localStorage — a JSON array of completed slugs.
+- Returns `{ completed, isCompleted(slug), toggle(slug) }`.
+
+`CompleteButton` (`components/complete-button.tsx`) — `'use client'` button on each chapter page. Mirrors `BookmarkButton` style.
+
+`ChapterCompletionBadge` (`components/chapter-completion-badge.tsx`) — `'use client'` component on home page chapter cards. Renders an amber `bg-accent` checkmark overlay (`absolute top-2 right-2`) when the chapter is completed.
+
+`SidebarClient` reads `isCompleted()` per chapter to show `<Check>` icons. When `completedCount > 0`, shows a progress bar with `X / 35` counter above `ContinueReading`.
+
+## Keyboard shortcuts — how they work
+
+`ShortcutsTrigger` (`components/shortcuts-trigger.tsx`) — `'use client'`. Global `keydown` listener for `e.key === '?'` (toggling the modal). Renders a `<Keyboard>` icon button in the header.
+
+`ShortcutsModal` (`components/shortcuts-modal.tsx`) — `'use client'`. Full-screen overlay listing all keyboard shortcuts. Styled identically to `SearchModal`. Closes on `Esc` or backdrop click.
+
+`ChapterShortcuts` (`components/chapter-shortcuts.tsx`) — `'use client'`, renders `null`. Placed only on chapter pages. Listens for `e.key === 'b'` to toggle bookmark. Unmounts on navigation so it never fires on non-chapter pages.
 
 ## Per-chapter OG images — how they work
 
