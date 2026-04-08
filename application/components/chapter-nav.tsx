@@ -18,7 +18,7 @@ export function ChapterNav({ prev, next }: ChapterNavProps) {
           <ArrowLeft size={16} strokeWidth={1.5} className="shrink-0" />
           <div>
             <span className="font-mono text-[10px] tracking-widest uppercase opacity-60">
-              Previous
+              Previous{prev.readTime ? ` · ${prev.readTime} min` : ''}
             </span>
             <p className="font-heading text-sm font-semibold leading-snug">
               {prev.title}
@@ -35,7 +35,7 @@ export function ChapterNav({ prev, next }: ChapterNavProps) {
         >
           <div>
             <span className="font-mono text-[10px] tracking-widest uppercase opacity-60">
-              Next
+              Next{next.readTime ? ` · ${next.readTime} min` : ''}
             </span>
             <p className="font-heading text-sm font-semibold leading-snug">
               {next.title}

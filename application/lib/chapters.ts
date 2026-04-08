@@ -159,6 +159,12 @@ export function getAllChapters(): ChapterMeta[] {
   const dirs = getAllChapterDirs()
   return dirs.map((dirName) => {
     const { season, number, title } = parseDirName(dirName)
+    const readmePath = path.join(CONTENT_ROOT, dirName, 'README.md')
+    let readTime = 1
+    try {
+      const content = fs.readFileSync(readmePath, 'utf-8')
+      readTime = computeReadTime(content)
+    } catch {}
     return {
       slug: dirNameToSlug(dirName),
       dirName,
@@ -166,6 +172,7 @@ export function getAllChapters(): ChapterMeta[] {
       number,
       season,
       seasonLabel: getSeasonLabel(season),
+      readTime,
     }
   })
 }

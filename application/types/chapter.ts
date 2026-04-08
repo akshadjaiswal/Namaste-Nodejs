@@ -16,7 +16,7 @@ export interface Chapter {
   readTime: number
 }
 
-export type ChapterMeta = Omit<Chapter, 'content' | 'headings' | 'readTime'>
+export type ChapterMeta = Omit<Chapter, 'content' | 'headings'>
 
 export interface Season {
   number: 1 | 2 | 3
