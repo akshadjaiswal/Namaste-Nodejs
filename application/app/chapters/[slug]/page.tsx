@@ -47,6 +47,9 @@ export default async function ChapterPage({
   const prev = currentIndex > 0 ? allChapters[currentIndex - 1] : null
   const next =
     currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1] : null
+  const allSlugsInSeason = allChapters
+    .filter((c) => c.season === chapter.season)
+    .map((c) => c.slug)
 
   return (
     <>
@@ -69,7 +72,7 @@ export default async function ChapterPage({
         <div className="h-2 bg-foreground dark:bg-[#FAFAFA] mt-8" />
         <div className="mt-4 flex items-center gap-3 flex-wrap">
           <BookmarkButton slug={chapter.slug} />
-          <CompleteButton slug={chapter.slug} />
+          <CompleteButton slug={chapter.slug} seasonLabel={chapter.seasonLabel} allSlugsInSeason={allSlugsInSeason} />
           <PrintButton />
         </div>
       </header>
