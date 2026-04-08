@@ -56,11 +56,11 @@ application/
 │       └── opengraph-image.tsx # Per-chapter OG image (1200×630, Node.js green)
 ├── components/
 │   ├── sidebar.tsx             # Server wrapper — calls getSeasons()
-│   ├── sidebar-client.tsx      # Client: collapsible nav, mobile overlay
-│   ├── header.tsx              # Sticky header with GitHub stars + SearchTrigger + attribution
-│   ├── markdown-renderer.tsx   # Async RSC: Shiki-highlighted react-markdown
-│   ├── table-of-contents.tsx   # Client: sticky TOC with intersection observer
-│   ├── chapter-nav.tsx         # Prev/Next chapter links
+│   ├── sidebar-client.tsx      # Client: collapsible nav, mobile overlay, completion checkmarks, progress bar, reset button
+│   ├── header.tsx              # Sticky header with GitHub stars + SearchTrigger + ShortcutsTrigger + ThemeToggle + attribution
+│   ├── markdown-renderer.tsx   # Async RSC: Shiki dual-theme highlighted react-markdown + HeadingAnchor
+│   ├── table-of-contents.tsx   # Client: sticky TOC with intersection observer, active heading, scroll % indicator
+│   ├── chapter-nav.tsx         # Prev/Next chapter links with read time
 │   ├── copy-button.tsx         # 'use client' — copy-to-clipboard for code blocks
 │   ├── reading-progress.tsx    # 'use client' — amber scroll progress bar (chapter pages only)
 │   ├── search-modal.tsx        # 'use client' — Fuse.js search modal (fetch + fuzzy search)
@@ -70,11 +70,13 @@ application/
 │   ├── theme-provider.tsx      # 'use client' — ThemeContext, localStorage sync, html.dark toggle
 │   ├── theme-toggle.tsx        # 'use client' — Sun/Moon icon button in header
 │   ├── heading-anchor.tsx      # 'use client' — copy-link-to-section icon on headings
-│   ├── complete-button.tsx     # 'use client' — "Mark Complete" toggle on chapter page
+│   ├── complete-button.tsx     # 'use client' — "Mark Complete" toggle; shows season-complete celebration banner
 │   ├── chapter-completion-badge.tsx  # 'use client' — amber checkmark on home page cards
 │   ├── shortcuts-modal.tsx     # 'use client' — keyboard shortcuts reference modal
 │   ├── shortcuts-trigger.tsx   # 'use client' — '?' key listener + Keyboard icon button
-│   └── chapter-shortcuts.tsx   # 'use client' — chapter-page-scoped 'b' key → bookmark
+│   ├── chapter-shortcuts.tsx   # 'use client' — chapter-page-scoped 'b' key → bookmark
+│   ├── print-button.tsx        # 'use client' — Printer icon button; calls window.print()
+│   └── scroll-to-top.tsx       # 'use client' — floating ArrowUp button, appears after 300px scroll
 ├── hooks/
 │   └── use-bookmark.ts         # useLastVisited, useBookmark, useContinueReading, useCompletedChapters hooks
 ├── lib/
@@ -252,13 +254,32 @@ Dark color mappings used throughout components:
 
 `hooks/use-bookmark.ts` exports `useCompletedChapters()`:
 - Reads/writes `nn_completed` in localStorage — a JSON array of completed slugs.
-- Returns `{ completed, isCompleted(slug), toggle(slug) }`.
+- Returns `{ completed, isCompleted(slug), toggle(slug), reset() }`.
+- `reset()` removes `nn_completed` from localStorage and clears state.
 
-`CompleteButton` (`components/complete-button.tsx`) — `'use client'` button on each chapter page. Mirrors `BookmarkButton` style.
+`CompleteButton` (`components/complete-button.tsx`) — `'use client'` button on each chapter page. Receives `slug`, `seasonLabel`, and `allSlugsInSeason: string[]` props. After marking complete, checks if all slugs in the season are now done → shows a 4s auto-dismiss celebration banner (`"Season X complete!"`) using a `fixed bottom-20 right-6` toast.
 
 `ChapterCompletionBadge` (`components/chapter-completion-badge.tsx`) — `'use client'` component on home page chapter cards. Renders an amber `bg-accent` checkmark overlay (`absolute top-2 right-2`) when the chapter is completed.
 
-`SidebarClient` reads `isCompleted()` per chapter to show `<Check>` icons. When `completedCount > 0`, shows a progress bar with `X / 35` counter above `ContinueReading`.
+`SidebarClient` reads `isCompleted()` per chapter to show `<Check>` icons. When `completedCount > 0`, shows a progress bar with `X / 35` counter and a `"Reset progress"` button above `ContinueReading`.
+
+## Read time on chapter nav — how it works
+
+`ChapterMeta` now includes `readTime` (previously omitted via `Omit<Chapter, 'content' | 'headings' | 'readTime'>`). `getAllChapters()` in `lib/chapters.ts` reads each chapter's README.md and calls `computeReadTime()` to populate `readTime` in the meta. `ChapterNav` receives `prev` and `next` as `ChapterMeta` and renders `Previous · X min` / `Next · X min` labels.
+
+## TOC scroll percentage — how it works
+
+`TableOfContents` has a `scrollPct` state updated by a passive `scroll` listener: `Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100)`. Displayed as `{scrollPct}%` in muted mono to the right of "On this page". The border below the heading acts as a mini progress bar — a `.bg-accent` div slides to `width: scrollPct%`.
+
+## Print / Save as PDF — how it works
+
+`PrintButton` (`components/print-button.tsx`) — `'use client'` button that calls `window.print()`. Rendered on chapter pages alongside BookmarkButton and CompleteButton. Only shown on `md:` and above (`hidden md:flex`). Has `no-print` class so it hides itself during printing.
+
+`@media print` CSS in `globals.css` hides `aside`, `header`, `nav`, `[role="progressbar"]`, and `.no-print` elements. Forces `background: white; color: black` on body, expands `article` to full width, forces `shiki-light` theme, and adds `page-break-*` rules.
+
+## Scroll-to-top button — how it works
+
+`ScrollToTop` (`components/scroll-to-top.tsx`) — `'use client'` component rendered on chapter pages. A passive `scroll` listener shows the button when `window.scrollY > 300`. Positioned `fixed bottom-6 right-6 z-40`. Clicking calls `window.scrollTo({ top: 0, behavior: 'smooth' })`. Has `no-print` class. Uses `ArrowUp` lucide icon, sharp-cornered matching the design system.
 
 ## Keyboard shortcuts — how they work
 
@@ -311,3 +332,5 @@ This app is a port of `Namaste-JavaScript/application/`. When making structural 
 - Do NOT use `@shikijs/rehype` as a rehype plugin in the `react-markdown` pipeline — it is async and will crash with `` `runSync` finished async ``. Use Shiki's `codeToHtml()` directly to pre-process the markdown string before rendering
 - Do NOT edit `public/search-index.json` or `public/chapter-images/` manually — both are auto-generated at prebuild; `search-index.json` now includes a `content` field
 - Do NOT delete `public/fonts/PlayfairDisplay.ttf` — it is required for per-chapter OG image generation at runtime
+- Do NOT omit `readTime` from `ChapterMeta` — it is now included (type changed from `Omit<Chapter, 'content'|'headings'|'readTime'>` to `Omit<Chapter, 'content'|'headings'>`) and populated in `getAllChapters()`
+- Do NOT pass `<CompleteButton>` without `seasonLabel` and `allSlugsInSeason` props — they are required for the season-complete celebration banner
