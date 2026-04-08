@@ -96,4 +96,16 @@
   .shiki-dark  { display: none; }
   html.dark .shiki-light { display: none; }
   html.dark .shiki-dark  { display: block; }
+
+  /* Inline code inside table headers — transparent bg so it reads on the black thead */
+  thead code {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: inherit !important;
+  }
+
+  /* Dark mode: thead is #FAFAFA, so use a dark-tinted border instead */
+  html.dark thead code {
+    border-color: rgba(0, 0, 0, 0.3) !important;
+  }
 }
