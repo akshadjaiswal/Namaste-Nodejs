@@ -109,3 +109,39 @@
     border-color: rgba(0, 0, 0, 0.3) !important;
   }
 }
+
+@media print {
+  /* Hide chrome — only show the article content */
+  aside,
+  header,
+  nav,
+  [role="progressbar"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Full-width article */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Reset layout — remove sidebar offset */
+  .flex.min-h-screen {
+    display: block !important;
+  }
+
+  /* Expand article to full width */
+  article {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Force readable colors on code blocks */
+  .shiki-dark { display: none !important; }
+  .shiki-light { display: block !important; }
+
+  /* Page breaks */
+  h2, h3 { page-break-after: avoid; }
+  pre, blockquote { page-break-inside: avoid; }
+}

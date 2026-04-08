@@ -7,6 +7,7 @@ import { ChapterNav } from '@/components/chapter-nav'
 import { ReadingProgress } from '@/components/reading-progress'
 import { BookmarkButton } from '@/components/bookmark-button'
 import { CompleteButton } from '@/components/complete-button'
+import { PrintButton } from '@/components/print-button'
 import { ChapterShortcuts } from '@/components/chapter-shortcuts'
 
 export function generateStaticParams() {
@@ -67,6 +68,7 @@ export default async function ChapterPage({
         <div className="mt-4 flex items-center gap-3 flex-wrap">
           <BookmarkButton slug={chapter.slug} />
           <CompleteButton slug={chapter.slug} />
+          <PrintButton />
         </div>
       </header>
 
