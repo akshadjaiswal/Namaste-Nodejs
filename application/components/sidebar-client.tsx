@@ -16,7 +16,7 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [expandedSeasons, setExpandedSeasons] = useState<number[]>([1, 2, 3])
-  const { isCompleted } = useCompletedChapters()
+  const { isCompleted, reset } = useCompletedChapters()
 
   const allChapters = seasons.flatMap((s) =>
     s.chapters.map((c) => ({ slug: c.slug, title: c.title, number: c.number }))
@@ -65,6 +65,12 @@ export function SidebarClient({ seasons }: SidebarClientProps) {
               style={{ width: `${progressPct}%` }}
             />
           </div>
+          <button
+            onClick={reset}
+            className="mt-2 font-mono text-[9px] tracking-widest uppercase text-muted-foreground dark:text-[#A3A3A3] hover:text-foreground dark:hover:text-[#FAFAFA] transition-colors duration-100"
+          >
+            Reset progress
+          </button>
         </div>
       )}
 

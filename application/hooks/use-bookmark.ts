@@ -100,5 +100,13 @@ export function useCompletedChapters() {
     } catch {}
   }, [completed])
 
-  return { completed, isCompleted, toggle }
+  const reset = useCallback(() => {
+    setCompleted([])
+    try {
+      localStorage.removeItem(COMPLETED_KEY)
+      dispatch(COMPLETED_KEY)
+    } catch {}
+  }, [])
+
+  return { completed, isCompleted, toggle, reset }
 }
