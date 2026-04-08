@@ -8,6 +8,7 @@ import { ReadingProgress } from '@/components/reading-progress'
 import { BookmarkButton } from '@/components/bookmark-button'
 import { CompleteButton } from '@/components/complete-button'
 import { PrintButton } from '@/components/print-button'
+import { ScrollToTop } from '@/components/scroll-to-top'
 import { ChapterShortcuts } from '@/components/chapter-shortcuts'
 
 export function generateStaticParams() {
@@ -50,6 +51,7 @@ export default async function ChapterPage({
   return (
     <>
       <ReadingProgress />
+      <ScrollToTop />
       <ChapterShortcuts slug={chapter.slug} />
     <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-24">
       <header className="mb-12">
