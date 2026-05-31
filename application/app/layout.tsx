@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { getGitHubStars } from '@/lib/github'
+import { Analytics } from '@vercel/analytics/next'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -90,6 +91,7 @@ export default async function RootLayout({
             </main>
           </div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
